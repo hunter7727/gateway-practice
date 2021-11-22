@@ -1,0 +1,32 @@
+server:
+  port: 28810
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: firstCase
+          uri: http://10.10.1.97:28801
+          predicates:
+#            - After=2021-11-21T10:35:35.660+08:00[Asia/Shanghai]  #表示在这个时间以后才可以进行请求，将请求转发到上面这个uri上，在这个时间之前请求返回404
+#            - Before=2021-11-21T10:37:35.660+08:00[Asia/Shanghai]  #表示在这个时间以前才可以进行请求，将请求转发到上面这个uri上，在这个时间之后请求返回404
+#            - Between=2021-11-21T10:42:35.660+08:00[Asia/Shanghai],2021-11-21T10:43:35.660+08:00[Asia/Shanghai]  #表示在这个时间段之间才可以进行请求，将请求转发到上面这个uri上，在这个时间段之外请求返回404
+#            - Cookie=token,hhh #表示cookie中带有token-key和hhh-value的请求才能路由上上面uri中
+#            - Cookie=token1,hhh1 #与上面case同理
+#            - Header=userName,Gary #表示header中带有userName-key和Gary-value的请求才能路由上上面uri中
+#            - Host=**.start.com #header中带有host参数，并且参数的值可以匹配上 **.start.com
+#            - Path=/default/helloWorld,/default/showName,false
+#            - Query=id,990
+#            - RemoteAddr=10.20.5.87/10
+#            - Weight=g1,1
+            - Method=GET,PUT #只有GET和PUT请求可以匹配到上面的URI
+          filters:
+#            - AddRequestHeader=token,98809
+#            - AddRequestParameter=token,98809
+#            - AddResponseHeader=token,98809
+#            - DedupeResponseHeader=token id,RETAIN_LAST
+            - CircuitBreaker=myCircuitBreaker
+#        - id: secondCase
+#          uri: https://www.baidu.com
+#          predicates:
+#            - Weight=g2,9
